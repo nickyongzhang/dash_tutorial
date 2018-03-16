@@ -23,14 +23,12 @@ def update_value(input_data):
 	start = datetime.datetime(2015,1,1)
 	end = datetime.datetime(2018,2,8)
 	df = web.DataReader(input_data,'morningstar',start,end)
-	print(df.index.get_level_values(1)[:5])
-	print(df.Close[:5])
 
 	return dcc.Graph(
 		id='example-graph',
         figure={
             'data': [
-                {'x': df.index.get_level_values(1), 'y': df.Close.values, 'type': 'line', 'name': input_data},
+                {'x': df.index.get_level_values(1), 'y': df.Close, 'type': 'line', 'name': input_data},
             ],
             'layout': {
                 'title': input_data

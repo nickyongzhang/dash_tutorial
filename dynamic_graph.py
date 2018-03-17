@@ -7,7 +7,7 @@ import pandas_datareader.data as web
 import datetime
 import quandl
 
-api_key = open('quandl_apikey.txt','r').read()
+api_key = open('quandl_apikey.csv','r').read()
 
 app = dash.Dash()
 

@@ -5,6 +5,9 @@ import dash_core_components as dcc
 import dash_html_components as html
 import pandas_datareader.data as web
 import datetime
+import quandl
+
+api_key = open('quandl_apikey.txt','r').read()
 
 app = dash.Dash()
 
@@ -21,14 +24,18 @@ app.layout = html.Div(children=[
 	)
 def update_value(input_data):
 	start = datetime.datetime(2015,1,1)
-	end = datetime.datetime(2018,2,8)
-	df = web.DataReader(input_data,'morningstar',start,end)
+	end = datetime.datetime.now()
+	#google finance is not working
+	# df = web.DataReader(input_data,'google',start,end,authtoken=auth_tok)
+	#use quandl as data source, but it needs an api_key
+	stock = 'WIKI/'+input_data.upper()
+	df = quandl.get(stock,api_key=api_key,start_date=start,end_date=end)
 
 	return dcc.Graph(
 		id='example-graph',
         figure={
             'data': [
-                {'x': df.index.get_level_values(1), 'y': df.Close, 'type': 'line', 'name': input_data},
+                {'x': df.index, 'y': df.Close, 'type': 'line', 'name': input_data},
             ],
             'layout': {
                 'title': input_data
